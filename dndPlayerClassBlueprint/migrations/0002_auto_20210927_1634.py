@@ -9,7 +9,7 @@ import uuid
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('dndPlayerClass', '0001_initial'),
+        ('dndPlayerClassBlueprint', '0001_initial'),
     ]
 
     operations = [
@@ -24,6 +24,6 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='playerclass',
             name='languagesID',
-            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, to='dndPlayerClass.languages'),
+            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, to='dndPlayerClassBlueprint.languages'),
         ),
     ]

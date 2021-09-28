@@ -1,7 +1,7 @@
 import uuid
 
 from django.db import models
-from dndPlayerClass.player_class_models import languages, features
+from dndPlayerClassBlueprint.player_class_models import languages, features
 
 
 class PlayerClass(models.Model):

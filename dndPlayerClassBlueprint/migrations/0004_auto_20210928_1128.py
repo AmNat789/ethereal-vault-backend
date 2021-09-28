@@ -8,7 +8,7 @@ import uuid
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('dndPlayerClass', '0003_alter_languages_table'),
+        ('dndPlayerClassBlueprint', '0003_alter_languages_table'),
     ]
 
     operations = [
@@ -31,6 +31,6 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='playerclass',
             name='featureIDs',
-            field=models.ManyToManyField(to='dndPlayerClass.Features'),
+            field=models.ManyToManyField(to='dndPlayerClassBlueprint.Features'),
         ),
     ]

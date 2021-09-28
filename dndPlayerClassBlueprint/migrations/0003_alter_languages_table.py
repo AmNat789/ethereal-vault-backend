@@ -6,7 +6,7 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('dndPlayerClass', '0002_auto_20210927_1634'),
+        ('dndPlayerClassBlueprint', '0002_auto_20210927_1634'),
     ]
 
     operations = [
