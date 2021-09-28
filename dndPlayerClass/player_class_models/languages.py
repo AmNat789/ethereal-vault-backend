@@ -7,7 +7,7 @@ from django.db.models import PositiveIntegerField
 
 class Languages(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    given_languages = ArrayField(models.CharField(max_length=30), blank=True)
+    given_languages = ArrayField(models.CharField(max_length=20), blank=True)
     additional_languages = PositiveIntegerField()
 
     class Meta:

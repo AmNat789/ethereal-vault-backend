@@ -1,7 +1,7 @@
 import uuid
 
 from django.db import models
-from dndPlayerClass.player_class_models import languages
+from dndPlayerClass.player_class_models import languages, features
 
 
 class PlayerClass(models.Model):
@@ -12,7 +12,7 @@ class PlayerClass(models.Model):
     hit_die_sides = models.PositiveIntegerField()
     # TODO ProficienciesID
     languagesID = models.ForeignKey("languages", on_delete=models.SET_NULL, null=True)
-    # TODO FeaturesAndTraitsID
+    featureIDs = models.ManyToManyField('features')
     # TODO SpellcastingID
     # TODO LevellingID
 
