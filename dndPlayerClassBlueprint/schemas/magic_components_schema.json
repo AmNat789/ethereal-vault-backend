@@ -1,0 +1,24 @@
+{
+    "type": "object",
+    "properties": {
+        "V": {
+            "type": "array",
+            "items": {
+                "type": "string"
+            }
+        },
+        "S": {
+            "type": "array",
+            "items": {
+                "type": "string"
+            }
+        },
+        "M": {
+            "type": "array",
+            "items": {
+                "type": "string"
+            }
+        }
+    },
+    "additionalProperties": false
+}
