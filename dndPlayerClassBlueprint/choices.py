@@ -17,6 +17,31 @@ class Attribute(Choices):
     CHA = "Charisma"
 
 
+class Skill(Choices):
+    ATHLETICS = "Athletics"
+
+    ACROBATICS = "Acrobatics"
+    SLEIGHT_OF_HAND = "Sleight of Hand"
+    STEALTH = "Stealth"
+
+    ARCANA = "Arcana"
+    HISTORY = "History"
+    INVESTIGATION = "Investigation"
+    NATURE = "Nature"
+    RELIGION = "Religion"
+
+    ANIMAL_HANDLING = "Animal Handling"
+    INSIGHT = "Insight"
+    MEDICINE = "Medicine"
+    PERCEPTION = "Perception"
+    SURVIVAL = "Survival"
+
+    DECEPTION = "Deception"
+    INTIMIDATION = "Intimidation"
+    PERFORMANCE = "Performance"
+    PERSUASION = "Persuasion"
+
+
 class MagicType(Choices):
     SPELL = "Spell"
     CANTRIP = "Cantrip"
