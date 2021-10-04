@@ -1,7 +1,7 @@
 import uuid
 
 from django.db import models
-from dndPlayerClassBlueprint.player_class_models import languages, features, spellcasting
+from dndPlayerClassBlueprint.player_class_models import languages, features, spellcasting, proficiencies
 
 
 class PlayerClass(models.Model):
@@ -10,7 +10,7 @@ class PlayerClass(models.Model):
     name = models.CharField(max_length=20)
     description = models.TextField()
     hit_die_sides = models.PositiveIntegerField()
-    # TODO ProficienciesID
+    proficiencies_id = models.ForeignKey("proficiencies", on_delete=models.SET_NULL, null=True)
     languagesID = models.ForeignKey("languages", on_delete=models.SET_NULL, null=True)
     features_junction = models.ManyToManyField('features')
     spellcastingID = models.ForeignKey("spellcasting", on_delete=models.SET_NULL, null=True)
