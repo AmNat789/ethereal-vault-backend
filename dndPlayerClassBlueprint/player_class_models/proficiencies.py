@@ -15,6 +15,5 @@ class Proficiencies(models.Model):
     additional_proficient_skills = models.PositiveIntegerField()
     weapon_proficiencies = ArrayField(models.CharField(max_length=255))
 
-
     class Meta:
         db_table = "player_class_proficiencies"
