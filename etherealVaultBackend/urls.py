@@ -16,6 +16,9 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
+from dndPlayerClassBlueprint import views
+
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('classes/all', views.get_all_mini_player_classes),
 ]
