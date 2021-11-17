@@ -20,5 +20,6 @@ from dndPlayerClassBlueprint import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('classes/all', views.player_class__mini_profiles),
+    path('player-class/all', views.player_class__mini_profiles),
+    path('player-class/<uuid:player_class_id>', views.get_player_class_by_id),
 ]
