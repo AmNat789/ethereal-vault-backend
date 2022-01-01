@@ -22,4 +22,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('player-class/all', views.player_class__mini_profiles),
     path('player-class/<uuid:player_class_id>', views.get_player_class_by_id),
+    path('player-class/new', views.create_new_player_class),
 ]

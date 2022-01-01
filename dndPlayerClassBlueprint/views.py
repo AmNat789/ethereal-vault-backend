@@ -31,3 +31,13 @@ def get_player_class_by_id(request, player_class_id):
         except:
             response = json.dumps({"Error": "Something went wrong"})
         return HttpResponse(response, content_type='text/json')
+
+
+def create_new_player_class(request):
+    print(request.method)
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body)
+            return HttpResponse(data, content_type='text/json')
+        except Exception as e:
+            print(e)
