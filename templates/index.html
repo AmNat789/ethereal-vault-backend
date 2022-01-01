@@ -5,6 +5,9 @@
     <title>The Index</title>
 </head>
 <body>
-    <h1>Welcome to Ethereal Vault</h1>
+    {% if user.is_authenticated %}
+        <h1>Hello {{ user.username }}</h1>
+    {% endif %}
+    <h2>Welcome to Ethereal Vault</h2>
 </body>
 </html>
