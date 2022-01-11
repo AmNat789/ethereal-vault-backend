@@ -2,15 +2,25 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>The Index</title>
+    <title>Player Blueprint Creation</title>
 </head>
 <body>
-    {% if user.is_authenticated %}
-        <>
-    {% else %}
-        <button onclick="location.href = '/accounts/login'">Login</button>
-        <button onclick="location.href = '/register'">Register</button>
-    {% endif %}
+<h1>Create a new Player Blueprint</h1>
+{% if user.is_authenticated %}
+    <form method="post" action="{% url 'create-new-player-class-blueprint' %}">
+        {% csrf_token %}
+
+        {{ form }}
+
+        <input type="submit">
+
+    </form>
+{% else %}
+    <h2>Please login or register first</h2>
+
+    <button onclick="location.href = '/accounts/login'">Login</button>
+    <button onclick="location.href = '/register'">Register</button>
+{% endif %}
 
 </body>
 </html>

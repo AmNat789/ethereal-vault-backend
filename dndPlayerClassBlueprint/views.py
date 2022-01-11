@@ -4,10 +4,11 @@ from django.http import HttpResponse
 from django.shortcuts import render, redirect
 
 from dndPlayerClassBlueprint.models import PlayerClass
+from dndPlayerClassBlueprint.forms import PlayerClassForm
+
 from django.core import serializers
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate, login
-
 
 
 def index(request):
@@ -33,6 +34,21 @@ def register(request):
         return render(request, 'registration/register.html', context)
 
 
+def create_new_player_class(request):
+    if request.method == 'POST':
+        form = PlayerClassForm(request.POST)
+        if form.is_valid():
+            data = form.save(commit=False)
+            data.user = request.user
+            form.save()
+
+        return redirect('index')
+    elif request.method == 'GET':
+        form = PlayerClassForm()
+        context = {'form': form}
+        return render(request, 'player-class-blueprint/new-player-class-blueprint.html', context=context)
+
+
 def player_class__mini_profiles(request):
     if request.method == 'GET':
         try:
@@ -56,13 +72,3 @@ def get_player_class_by_id(request, player_class_id):
         except:
             response = json.dumps({"Error": "Something went wrong"})
         return HttpResponse(response, content_type='text/json')
-
-
-def create_new_player_class(request):
-    print(request.method)
-    if request.method == 'POST':
-        try:
-            data = json.loads(request.body)
-            return HttpResponse(data, content_type='text/json')
-        except Exception as e:
-            print(e)
