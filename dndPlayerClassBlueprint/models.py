@@ -2,6 +2,7 @@ import uuid
 
 from django.db import models
 from dndPlayerClassBlueprint.player_class_models import languages, features, spellcasting, proficiencies
+from django.conf import settings
 
 
 class PlayerClass(models.Model):
@@ -9,10 +10,12 @@ class PlayerClass(models.Model):
     name = models.CharField(max_length=20)
     description = models.TextField()
     hit_die_sides = models.PositiveIntegerField()
-    proficienciesID = models.ForeignKey("proficiencies", on_delete=models.SET_NULL, null=True)
-    languagesID = models.ForeignKey("languages", on_delete=models.SET_NULL, null=True)
+    proficiencies = models.ForeignKey("proficiencies", on_delete=models.SET_NULL, null=True)
+    languages = models.ForeignKey("languages", on_delete=models.SET_NULL, null=True)
     features = models.ManyToManyField('features', null=True, name='features_junction')
-    spellcastingID = models.ForeignKey("spellcasting", on_delete=models.SET_NULL, null=True)
+    spellcasting = models.ForeignKey("spellcasting", on_delete=models.SET_NULL, null=True)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+
     # TODO LevellingID
 
     class Meta:
