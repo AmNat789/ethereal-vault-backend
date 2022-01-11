@@ -29,4 +29,5 @@ urlpatterns = [
     path('player-class-blueprint/all', views.player_class__mini_profiles),
     path('player-class-blueprint/<uuid:player_class_id>', views.get_player_class_by_id),
     path('player-class-blueprint/new', views.create_new_player_class, name="create-new-player-class-blueprint"),
+    path('player-class-blueprint/delete/<uuid:player_class_id>', views.delete_player_class, name='delete-player-class-blueprint'),
 ]

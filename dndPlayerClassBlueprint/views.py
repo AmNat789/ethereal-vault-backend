@@ -81,3 +81,10 @@ def get_player_class_by_id(request, player_class_id):
         except:
             response = json.dumps({"Error": "Something went wrong"})
         return HttpResponse(response, content_type='text/json')
+
+
+def delete_player_class(request, player_class_id):
+    object = PlayerClass.objects.get(id=player_class_id)
+    if object.user == request.user:
+        object.delete()
+    return redirect('index')
