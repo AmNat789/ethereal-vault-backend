@@ -11,8 +11,17 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate, login
 
 
+def get_player_class_blueprints_of_user(request) -> list:
+    if request.method == "GET":
+        return PlayerClass.objects.filter(user_id=request.user)
+
+
 def index(request):
-    return render(request, 'index.html')
+    if request.method == "GET":
+        args = {}
+        if request.user.is_authenticated:
+            args["player_class_blueprints"] = get_player_class_blueprints_of_user(request)
+        return render(request, 'index.html', args)
 
 
 def register(request):

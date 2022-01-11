@@ -8,10 +8,24 @@
     {% if user.is_authenticated %}
         <h1>Hello {{ user.username }}</h1>
     {% endif %}
+
     <h2>Welcome to Ethereal Vault</h2>
 
     {% if user.is_authenticated %}
         <button onclick="location.href = '/player-class-blueprint/new'">Create</button>
+
+        <h2>Blueprints</h2>
+        {% for blueprint in player_class_blueprints %}
+            <div>
+                <a>{{ blueprint.name }}</a>
+                <button value="{{ blueprint.user_id }}">View</button>
+                <button value="{{ blueprint.user_id }}">Update</button>
+                <button value="{{ blueprint.user_id }}">Delete</button>
+            </div>
+        {% endfor %}
+
+        <button onclick="location.href = '/accounts/logout'">Logout</button>
+
     {% else %}
         <button onclick="location.href = '/accounts/login'">Login</button>
         <button onclick="location.href = '/register'">Register</button>
