@@ -5,13 +5,13 @@ from django.shortcuts import render, redirect
 
 from dndPlayerClassBlueprint.models import PlayerClass
 from dndPlayerClassBlueprint.forms import NewPlayerClassForm, CompletePlayerClassForm
+from dndPlayerClassBlueprint.utils import get_player_class_blueprints_of_user
 
 from django.core import serializers
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate, login
 from django.forms.models import model_to_dict
 
-from utils import get_player_class_blueprints_of_user
 
 
 def index(request):
@@ -91,11 +91,6 @@ def view_player_class(request, player_class_id):
         context["nonForeignParams"] = ["name", "description", "hit_die_sides"]
         return render(request, 'player-class-blueprint/view-player-class-blueprint.html', context)
 
-        # form = CompletePlayerClassForm(initial=model_to_dict(blueprint))
-        # context = {}
-        # context["form"] = form
-        # print(model_to_dict(blueprint).keys())
-        # return render(request, 'player-class-blueprint/view-player-class-blueprint.html', context)
 
 
 def delete_player_class(request, player_class_id):
@@ -103,3 +98,7 @@ def delete_player_class(request, player_class_id):
     if blueprint.user == request.user:
         blueprint.delete()
     return redirect('index')
+
+
+def add_and_update_languages(request):
+    return render(request, 'index.html')

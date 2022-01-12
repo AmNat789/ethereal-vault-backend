@@ -33,4 +33,5 @@ urlpatterns = [
     path('player-class-blueprint/view/<uuid:player_class_id>', views.view_player_class,
          name='view-player-class-blueprint'),
 
+    path('/player-class-blueprint/add-and-update/languages', views.add_and_update_languages)
 ]
