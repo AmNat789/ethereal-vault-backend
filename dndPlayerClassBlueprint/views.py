@@ -4,11 +4,12 @@ from django.http import HttpResponse
 from django.shortcuts import render, redirect
 
 from dndPlayerClassBlueprint.models import PlayerClass
-from dndPlayerClassBlueprint.forms import PlayerClassForm
+from dndPlayerClassBlueprint.forms import NewPlayerClassForm, CompletePlayerClassForm
 
 from django.core import serializers
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate, login
+from django.forms.models import model_to_dict
 
 
 def get_player_class_blueprints_of_user(request) -> list:
@@ -18,10 +19,10 @@ def get_player_class_blueprints_of_user(request) -> list:
 
 def index(request):
     if request.method == "GET":
-        args = {}
+        context = {}
         if request.user.is_authenticated:
-            args["player_class_blueprints"] = get_player_class_blueprints_of_user(request)
-        return render(request, 'index.html', args)
+            context["player_class_blueprints"] = get_player_class_blueprints_of_user(request)
+        return render(request, 'index.html', context)
 
 
 def register(request):
@@ -45,7 +46,7 @@ def register(request):
 
 def create_new_player_class(request):
     if request.method == 'POST':
-        form = PlayerClassForm(request.POST)
+        form = NewPlayerClassForm(request.POST)
         if form.is_valid():
             data = form.save(commit=False)
             data.user = request.user
@@ -53,7 +54,7 @@ def create_new_player_class(request):
 
         return redirect('index')
     elif request.method == 'GET':
-        form = PlayerClassForm()
+        form = NewPlayerClassForm()
         context = {'form': form}
         return render(request, 'player-class-blueprint/new-player-class-blueprint.html', context=context)
 
@@ -83,8 +84,25 @@ def get_player_class_by_id(request, player_class_id):
         return HttpResponse(response, content_type='text/json')
 
 
+def view_player_class(request, player_class_id):
+    blueprint = PlayerClass.objects.get(id=player_class_id)
+    if blueprint.user == request.user:
+        context = {}
+        context["player_class_id"] = player_class_id
+        context["blueprint"] = model_to_dict(blueprint)
+        context["form"] = CompletePlayerClassForm(initial=model_to_dict(blueprint))
+        context["nonForeignParams"] = ["name", "description", "hit_die_sides"]
+        return render(request, 'player-class-blueprint/view-player-class-blueprint.html', context)
+
+        # form = CompletePlayerClassForm(initial=model_to_dict(blueprint))
+        # context = {}
+        # context["form"] = form
+        # print(model_to_dict(blueprint).keys())
+        # return render(request, 'player-class-blueprint/view-player-class-blueprint.html', context)
+
+
 def delete_player_class(request, player_class_id):
-    object = PlayerClass.objects.get(id=player_class_id)
-    if object.user == request.user:
-        object.delete()
+    blueprint = PlayerClass.objects.get(id=player_class_id)
+    if blueprint.user == request.user:
+        blueprint.delete()
     return redirect('index')

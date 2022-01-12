@@ -18,8 +18,7 @@
         {% for blueprint in player_class_blueprints %}
             <div>
                 <a>{{ blueprint.name }}</a>
-                <button>View</button>
-                <button>Update</button>
+                <button onclick="location.href = '/player-class-blueprint/view/{{ blueprint.id }}'">View</button>
                 <button onclick="location.href = '/player-class-blueprint/delete/{{ blueprint.id }}'">Delete</button>
             </div>
         {% endfor %}

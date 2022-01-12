@@ -14,7 +14,7 @@ class PlayerClass(models.Model):
     languages = models.ForeignKey("languages", on_delete=models.SET_NULL, null=True)
     features = models.ManyToManyField('features', null=True, name='features_junction')
     spellcasting = models.ForeignKey("spellcasting", on_delete=models.SET_NULL, null=True)
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, editable=False)
 
     # TODO LevellingID
 

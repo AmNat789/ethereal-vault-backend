@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Blueprint</title>
+</head>
+<body>
+    {% if user.is_authenticated %}
+        <form method="post" action="{% url 'view-player-class-blueprint' player_class_id %}">
+        {% for param, value in blueprint.items %}
+            {% if param in nonForeignParams %}
+                <a>{{ param }}:  </a>
+                <input value="{{ value }}">
+            {% elif value %}
+                <a>{{ param }}:  </a>
+                <a style="border-style:inset">{{ value }}</a>
+                <button>Update</button>
+            {% else %}
+                <a>{{ param }}:  </a>
+                <button>Add new</button>
+            {% endif %}
+            <br>
+        {% endfor %}
+        <br><button type="submit" value="Update">Update Blueprint</button>
+        </form>
+    {% else %}
+        <button onclick="location.href = '/accounts/login'">Login</button>
+        <button onclick="location.href = '/register'">Register</button>
+    {% endif %}
+</body>
+</html>
