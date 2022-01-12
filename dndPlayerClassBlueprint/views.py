@@ -11,10 +11,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate, login
 from django.forms.models import model_to_dict
 
-
-def get_player_class_blueprints_of_user(request) -> list:
-    if request.method == "GET":
-        return PlayerClass.objects.filter(user_id=request.user)
+from utils import get_player_class_blueprints_of_user
 
 
 def index(request):
