@@ -9,16 +9,12 @@
 {% if user.is_authenticated %}
     <form method="post" action="{% url 'view-player-class-blueprint' player_class_id %}">
         {% csrf_token %}
-        {% for param, value in blueprint.items %}
-            {% if param in nonForeignParams %}
-                <a>{{ param }}: </a>
-                <input value="{{ value }}">
-            {% elif value %}
-                <a>{{ param }}: </a>
-                <a style="border-style:inset">{{ value }}</a>
-                <button>Update</button>
+
+        {% for field in form %}
+            {% if field.label in nonForeignParams %}
+                <a>{{ field.label }}: </a> {{ field }}
             {% else %}
-                <a>{{ param }}: </a>
+                <a>{{ field.label }}: </a>
                 {% if param|does_param_url_exists%}
                     <button onclick="location.href = '/player-class-blueprint/add-and-update/{{ param }}'">Add new</button>
                 {% else %}
@@ -27,8 +23,10 @@
             {% endif %}
             <br>
         {% endfor %}
+
         <br>
-        <button type="submit" value="Update">Update Blueprint</button>
+
+        <input type="submit" value="Update Blueprint">
     </form>
 {% else %}
     <button onclick="location.href = '/accounts/login'">Login</button>

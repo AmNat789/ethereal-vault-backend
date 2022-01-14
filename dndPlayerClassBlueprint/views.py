@@ -4,14 +4,13 @@ from django.http import HttpResponse
 from django.shortcuts import render, redirect
 
 from dndPlayerClassBlueprint.models import PlayerClass
-from dndPlayerClassBlueprint.forms import NewPlayerClassForm, CompletePlayerClassForm
+from dndPlayerClassBlueprint.forms import PartialPlayerClassForm, CompletePlayerClassForm
 from dndPlayerClassBlueprint.utils import get_player_class_blueprints_of_user
 
 from django.core import serializers
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate, login
 from django.forms.models import model_to_dict
-
 
 
 def index(request):
@@ -43,7 +42,7 @@ def register(request):
 
 def create_new_player_class(request):
     if request.method == 'POST':
-        form = NewPlayerClassForm(request.POST)
+        form = PartialPlayerClassForm(request.POST)
         if form.is_valid():
             data = form.save(commit=False)
             data.user = request.user
@@ -51,7 +50,7 @@ def create_new_player_class(request):
 
         return redirect('index')
     elif request.method == 'GET':
-        form = NewPlayerClassForm()
+        form = PartialPlayerClassForm()
         context = {'form': form}
         return render(request, 'player-class-blueprint/new-player-class-blueprint.html', context=context)
 
@@ -84,13 +83,23 @@ def get_player_class_by_id(request, player_class_id):
 def view_player_class(request, player_class_id):
     blueprint = PlayerClass.objects.get(id=player_class_id)
     if blueprint.user == request.user:
-        context = {}
-        context["player_class_id"] = player_class_id
-        context["blueprint"] = model_to_dict(blueprint)
-        context["form"] = CompletePlayerClassForm(initial=model_to_dict(blueprint))
-        context["nonForeignParams"] = ["name", "description", "hit_die_sides"]
-        return render(request, 'player-class-blueprint/view-player-class-blueprint.html', context)
+        if request.method == 'POST':
+            form = PartialPlayerClassForm(request.POST, instance=blueprint)
+            if form.is_valid():
+                data = form.save(commit=False)
+                data.user = request.user
+                form.save()
 
+            return redirect('index')
+
+        if request.method == "GET":
+            context = {}
+            context["player_class_id"] = player_class_id
+            context["nonForeignParams"] = ["Name", "Description", "Hit die sides"]
+            context["form"] = CompletePlayerClassForm(instance=blueprint)
+            return render(request, 'player-class-blueprint/view-player-class-blueprint.html', context)
+    else:
+        return redirect('index')
 
 
 def delete_player_class(request, player_class_id):
@@ -99,6 +108,3 @@ def delete_player_class(request, player_class_id):
         blueprint.delete()
     return redirect('index')
 
-
-def add_and_update_languages(request):
-    return render(request, 'index.html')
