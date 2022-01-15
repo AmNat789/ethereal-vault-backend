@@ -1,5 +1,6 @@
 import json
 
+from django.apps import apps
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 
@@ -116,15 +117,20 @@ def add_and_update_table(request, player_class_id, table_name):
             form = TableForm[table_name[:3].upper()].value(request.POST)
             if form.is_valid():
                 form_data = form.save(commit=False)
-                blueprint.proficiencies = form_data
+
+                blueprint.__dict__[table_name + "_id"] = form_data.id
                 form.save()
                 blueprint.save()
 
-                return redirect('index')
+                return redirect('view-player-class-blueprint', player_class_id)
 
         if request.method == 'GET':
-            form = TableForm[table_name[:3].upper()].value
+            table_id = blueprint.__dict__[table_name + "_id"]
+            table_model = apps.get_model(app_label='dndPlayerClassBlueprint', model_name=table_name)
+            table_instance = table_model.objects.get(id=table_id)
+
+            form = TableForm[table_name[:3].upper()].value(instance=table_instance)
             context = {'form': form, 'table_name': table_name, 'player_class_id': player_class_id}
             return render(request, 'player-class-blueprint/add-and-update.html', context=context)
     else:
-        return redirect('index')
+        return redirect('view-player-class-blueprint', player_class_id)

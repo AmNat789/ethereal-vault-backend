@@ -18,6 +18,10 @@
                 <a>
                 {% if field.value %}
                     <a style="border-style:inset">{{ field.value }}</a>
+                    <button type="button" name="add-and-update"
+                            onclick="location.href = '/player-class-blueprint/add-and-update/{{ player_class_id }}/{{ field.label|lower }}'">
+                        View
+                    </button>
                 {% elif field.label|enum_substring|does_editable_form_exist %}
                     <button type="button" name="add-and-update"
                             onclick="location.href = '/player-class-blueprint/add-and-update/{{ player_class_id }}/{{ field.label|lower }}'">
