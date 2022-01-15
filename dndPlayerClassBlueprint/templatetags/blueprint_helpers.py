@@ -1,9 +1,14 @@
 from django import template
-from django.urls import get_resolver
+from dndPlayerClassBlueprint.utils import TableForm
+
 register = template.Library()
 
 
 @register.filter()
-def does_param_url_exists(param):
-    url = f'/player\\-class\\-blueprint/add\\-and\\-update/{param}$'
-    return url in set(v[1] for k, v in get_resolver(None).reverse_dict.items())
+def does_editable_form_exist(enum_key):
+    return enum_key in TableForm.__members__
+
+
+@register.filter()
+def enum_substring(text):
+    return text[:3].upper()

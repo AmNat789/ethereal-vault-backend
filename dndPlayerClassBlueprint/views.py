@@ -4,8 +4,8 @@ from django.http import HttpResponse
 from django.shortcuts import render, redirect
 
 from dndPlayerClassBlueprint.models import PlayerClass
-from dndPlayerClassBlueprint.forms import PartialPlayerClassForm, CompletePlayerClassForm
-from dndPlayerClassBlueprint.utils import get_player_class_blueprints_of_user
+from dndPlayerClassBlueprint.forms import PartialPlayerClassForm, CompletePlayerClassForm, ProficienciesForm
+from dndPlayerClassBlueprint.utils import get_player_class_blueprints_of_user, TableForm
 
 from django.core import serializers
 from django.contrib.auth.forms import UserCreationForm
@@ -92,7 +92,7 @@ def view_player_class(request, player_class_id):
 
             return redirect('index')
 
-        if request.method == "GET":
+        if request.method == 'GET':
             context = {}
             context["player_class_id"] = player_class_id
             context["nonForeignParams"] = ["Name", "Description", "Hit die sides"]
@@ -108,3 +108,23 @@ def delete_player_class(request, player_class_id):
         blueprint.delete()
     return redirect('index')
 
+
+def add_and_update_table(request, player_class_id, table_name):
+    blueprint = PlayerClass.objects.get(id=player_class_id)
+    if blueprint.user == request.user:
+        if request.method == 'POST':
+            form = TableForm[table_name[:3].upper()].value(request.POST)
+            if form.is_valid():
+                form_data = form.save(commit=False)
+                blueprint.proficiencies = form_data
+                form.save()
+                blueprint.save()
+
+                return redirect('index')
+
+        if request.method == 'GET':
+            form = TableForm[table_name[:3].upper()].value
+            context = {'form': form, 'table_name': table_name, 'player_class_id': player_class_id}
+            return render(request, 'player-class-blueprint/add-and-update.html', context=context)
+    else:
+        return redirect('index')

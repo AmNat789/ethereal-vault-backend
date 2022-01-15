@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add and Update</title>
+</head>
+<body>
+<form method="post" action="{% url 'add-and-update-table' player_class_id table_name %}">
+    {% csrf_token %}
+
+    <table>
+        {{ form.as_table|safe }}
+    </table>
+
+    <input type="submit">
+</form>
+</body>
+</html>

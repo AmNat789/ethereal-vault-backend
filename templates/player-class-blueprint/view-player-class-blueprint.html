@@ -15,8 +15,14 @@
                 <a>{{ field.label }}: </a> {{ field }}
             {% else %}
                 <a>{{ field.label }}: </a>
-                {% if param|does_param_url_exists%}
-                    <button onclick="location.href = '/player-class-blueprint/add-and-update/{{ param }}'">Add new</button>
+                <a>
+                {% if field.value %}
+                    <a style="border-style:inset">{{ field.value }}</a>
+                {% elif field.label|enum_substring|does_editable_form_exist %}
+                    <button type="button" name="add-and-update"
+                            onclick="location.href = '/player-class-blueprint/add-and-update/{{ player_class_id }}/{{ field.label|lower }}'">
+                        Add new
+                    </button>
                 {% else %}
                     <a style="border-style:inset">Feature Coming Soon</a>
                 {% endif %}

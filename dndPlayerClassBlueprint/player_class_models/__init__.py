@@ -1,0 +1,5 @@
+from dndPlayerClassBlueprint.player_class_models.features import Features
+from dndPlayerClassBlueprint.player_class_models.languages import Languages
+from dndPlayerClassBlueprint.player_class_models.magic import Magic
+from dndPlayerClassBlueprint.player_class_models.proficiencies import Proficiencies
+from dndPlayerClassBlueprint.player_class_models.spellcasting import Spellcasting
