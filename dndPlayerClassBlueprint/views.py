@@ -125,9 +125,10 @@ def add_and_update_table(request, player_class_id, table_name):
                 return redirect('view-player-class-blueprint', player_class_id)
 
         if request.method == 'GET':
-            table_id = blueprint.__dict__[table_name + "_id"]
-            table_model = apps.get_model(app_label='dndPlayerClassBlueprint', model_name=table_name)
-            table_instance = table_model.objects.get(id=table_id)
+            table_instance = None
+            if table_id := blueprint.__dict__[table_name + "_id"]:
+                table_model = apps.get_model(app_label='dndPlayerClassBlueprint', model_name=table_name)
+                table_instance = table_model.objects.get(id=table_id)
 
             form = TableForm[table_name[:3].upper()].value(instance=table_instance)
             context = {'form': form, 'table_name': table_name, 'player_class_id': player_class_id}
